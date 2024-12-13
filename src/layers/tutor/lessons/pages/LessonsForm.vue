@@ -25,6 +25,7 @@ import { LessonStatus } from '@/app/enums/LessonStatus';
 import { existValidation, regexValidation } from '@/app/utils/validation';
 import LessonFormFields from '../components/LessonFormFields.vue';
 import { rangeValidation } from '../../components/TimePicker/rangeValidations';
+import dayjs from 'dayjs';
 
 
 
@@ -42,8 +43,8 @@ const formState = ref<Lesson>({
   studentId: [],
   homeWork: LessonStatus.PROCESSING,
   paid: false,
-  startTime: '',
-  endTime: '',
+  startTime: dayjs().format('HH:mm'),
+  endTime: dayjs().add(1, 'hour').format('HH:mm'),
   date: new Date
 });
 useAutoQuery(formState, { queryKey: ['lessonInfo'], queryFn: () => lessonsService.getLessonInfo(Number(route.params.id)), retry: 1, enabled: !!route.params.id, gcTime: 0 })

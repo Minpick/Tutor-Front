@@ -1,6 +1,6 @@
 <template>
   <Select v-model="model" :options="options" optionLabel="value" :name="name" fluid optionValue="value"
-    :placeholder="label" :class="$style.select" dropdownIcon="null" :unstyled="false"/>
+    :placeholder="label" :class="$style.select" dropdownIcon="null" :unstyled="false" />
 </template>
 
 <script setup lang='ts'>
