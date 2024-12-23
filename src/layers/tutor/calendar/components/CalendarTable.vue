@@ -1,8 +1,8 @@
 <template>
   <div class="wrapper">
     <ScheduleXCalendar :calendar-app="calendarApp" class="calendar">
-      <template #eventModal="{ calendarEvent }" >
-        <EventModal :id="calendarEvent.id" :close="() => eventModal.close()"/>
+      <template #eventModal="{ calendarEvent }">
+        <EventModal :id="calendarEvent.id" :close="() => eventModal.close()" />
       </template>
     </ScheduleXCalendar>
   </div>
@@ -23,7 +23,7 @@ import { createResizePlugin } from '@schedule-x/resize'
 import '@schedule-x/theme-default/dist/index.css'
 import { createScrollControllerPlugin } from '@schedule-x/scroll-controller'
 import { useDark } from '@vueuse/core'
-import { provide, watch,   } from 'vue'
+import { provide, watch, } from 'vue'
 import '../calendar.css'
 import dayjs from 'dayjs'
 
@@ -85,6 +85,7 @@ const calendarApp = createCalendar({
     },
     async beforeRender($app) {
       const range = $app.calendarState.range.value
+      console.log('calendar rendered')
       if (range) {
         const response = await calendarService.getAllEvents((range?.start as string), (range?.end as string))
         calendarApp.events.set(response)
@@ -97,13 +98,16 @@ const calendarApp = createCalendar({
       console.log('onClickDate', date) // e.g. 2024-01-01
     },
     async onClickDateTime(dateTime) {
+      console.log(calendarApp.events.getAll())
       const newDateTime = roundToNearest15Minutes(dateTime)
       const newEvent = {
         id: 0,
         start: newDateTime,
         end: dayjs(newDateTime).add(2, 'hour').format('YYYY-MM-DD HH:mm')
       }
-      calendarApp.events.add(newEvent)
+      setTimeout(() => {
+        calendarApp.events.add(newEvent)
+      }, 10)
       setTimeout(() => {
         const eventElement = document.querySelector(`[data-event-id="${newEvent.id}"] .sx__time-grid-event-inner`);
         if (eventElement) {

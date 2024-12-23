@@ -16,7 +16,7 @@
       <Column field="shortDescription" header="Описание" style="width: 25%"></Column>
       <Column field="date" header="Дата" style="width: 5%;text-align: center;">
         <template #body="slotProps">
-          {{ dayjs.utc(slotProps.data.date).format('DD.MM.YYYY') }}
+          {{ dayjs(slotProps.data.startDate).format('DD.MM.YYYY')}}
         </template>
       </Column>
       <Column field="miroLink" header="Миро" style="width: 10%;text-align: center;">
@@ -51,6 +51,7 @@ import { lessonsService } from '../lessonsService';
 import BaseCheckbox from '@/app/components/UI/BaseCheckbox.vue';
 import HomeWorkName from '../components/HomeWorkName.vue';
 import dayjs from 'dayjs';
+
 import MiroLink from '../components/MiroLink.vue';
 import StudentsSelect from '../components/StudentsSelect.vue';
 

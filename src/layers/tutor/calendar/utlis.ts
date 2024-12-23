@@ -41,3 +41,54 @@ export const roundTimeToNearest30Minutes = (timeString: string) => {
   // Format the result as HH:mm
   return `${String(roundedHours).padStart(2, '0')}:${String(roundedMinutesOnly).padStart(2, '0')}`;
 }
+
+
+
+export function convertTimeToUTC(timeString:string) {
+  // Parse the HH:mm string into hours and minutes
+  const [hours, minutes] = timeString.split(':').map(Number);
+
+  // Create a Date object to represent the time in UTC
+  const date = new Date();
+  date.setUTCHours(hours, minutes, 0, 0);
+
+  // Get the timezone offset in hours (positive or negative)
+  const timezoneOffset = new Date().getTimezoneOffset() / 60; // Convert minutes to hours
+
+  // Adjust the time by subtracting the timezone offset (in hours)
+  const adjustedDate = new Date(date);
+  adjustedDate.setHours(adjustedDate.getHours() + timezoneOffset);
+
+  // Extract the hours and minutes from the adjusted date
+  const adjustedHours = adjustedDate.getUTCHours();
+  const adjustedMinutes = adjustedDate.getUTCMinutes();
+
+  // Format the adjusted time as HH:mm
+  const formattedTime = `${String(adjustedHours).padStart(2, '0')}:${String(adjustedMinutes).padStart(2, '0')}`;
+
+  return formattedTime;
+}
+export function convertTimeFromUTC(timeString:string) {
+  // Parse the HH:mm string into hours and minutes
+  const [hours, minutes] = timeString.split(':').map(Number);
+
+  // Create a Date object to represent the time in UTC
+  const date = new Date();
+  date.setUTCHours(hours, minutes, 0, 0);
+
+  // Get the timezone offset in hours (positive or negative)
+  const timezoneOffset = new Date().getTimezoneOffset() / 60; // Convert minutes to hours
+
+  // Adjust the time by subtracting the timezone offset (in hours)
+  const adjustedDate = new Date(date);
+  adjustedDate.setHours(adjustedDate.getHours() - timezoneOffset);
+
+  // Extract the hours and minutes from the adjusted date
+  const adjustedHours = adjustedDate.getUTCHours();
+  const adjustedMinutes = adjustedDate.getUTCMinutes();
+
+  // Format the adjusted time as HH:mm
+  const formattedTime = `${String(adjustedHours).padStart(2, '0')}:${String(adjustedMinutes).padStart(2, '0')}`;
+
+  return formattedTime;
+}

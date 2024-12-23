@@ -22,7 +22,7 @@
 import { CalendarEventType, CalendarEventTypeName } from '@/app/enums/CalendarEnums';
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primevue';
 import LessonModal from './LessonModal.vue';
-import { inject, onMounted, onUnmounted,  } from 'vue';
+import { inject, onMounted, onUnmounted, } from 'vue';
 
 
 
@@ -33,11 +33,12 @@ type Props = {
   id: number
   close: ((payload: MouseEvent) => void) | undefined
 }
-const calendarApp = inject<{ events: { remove: (id: number) => void } }>('calendarApp')
+const calendarApp = inject<{ events: { remove: (id: number) => void, get: (id: number) => void } }>('calendarApp')
 
 const { id, close } = defineProps<Props>()
 
 const handleClose = (e: MouseEvent) => {
+
   calendarApp?.events.remove(0)
   if (close) {
     close(e)
@@ -47,10 +48,12 @@ onMounted(() => {
   const element = document.querySelector('.sx__event-modal');
   const uniqueId = element?.id;
   if (uniqueId) {
-    const handler = (event:Event) => {
+    const handler = (event: Event) => {
       const targetElement = document.getElementById(uniqueId);
       if (targetElement && !targetElement.contains((event.target as HTMLElement))) {
-        calendarApp?.events.remove(0)
+        if (calendarApp?.events.get(0)) {
+          calendarApp?.events.remove(0)
+        }
       }
     };
     document.addEventListener('click', handler, true);
